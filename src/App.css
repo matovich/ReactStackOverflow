@@ -22,19 +22,31 @@
   border-color: black;
   border-style: solid;
   padding: 0 1rem;
-  background-color: antiquewhite;
+  background-color: #b3d4ff;
 }
 
 .Answer {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  margin: 0 5rem;
+  margin: 1rem 5rem 0 2.5rem;
   border: 1px;
   border-color: black;
   border-style: solid;
   padding: 0 1rem;
-  background-color: lightblue;
+  background-color: #cce2ff;
+}
+
+.Accepted-answer {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin: 1rem 5rem 0 2.5rem;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  padding: 0 1rem;
+  background-color: lightyellow;
 }
 
 .Button-box {
@@ -46,7 +58,11 @@
 
 button {
   margin: 1rem;
-  min-width: 10rem;
+  min-width: 11rem;
+}
+
+ul {
+  list-style-type: none;
 }
 
 .App-link {

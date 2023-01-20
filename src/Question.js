@@ -5,6 +5,7 @@ import Answers from './Answers.js';
 function Question() {
     const [data, setData] = useState();
     const [questionNumber, setQuestionNumber] = useState(0);
+    const [showAcceptedAnswer, setShowAcceptedAnswer] = useState(false);
 
     useEffect(() => {
         const url =
@@ -27,13 +28,21 @@ function Question() {
     }, [data]);
 
     function next() {
-        if (questionNumber + 1 < data.length)
+        if (questionNumber + 1 < data.length){
+            setShowAcceptedAnswer(false);
             setQuestionNumber(questionNumber + 1);
+        }
     }
 
     function previous() {
-        if (questionNumber > 0)
+        if (questionNumber > 0){
+            setShowAcceptedAnswer(false);
             setQuestionNumber(questionNumber - 1);
+        }
+    }
+
+    function showHideAcceptedAnswer() {
+        setShowAcceptedAnswer(!showAcceptedAnswer);
     }
 
     return (
@@ -41,15 +50,19 @@ function Question() {
             <div className="Button-box">
                 <button onClick={previous}>Previous</button>
                 <button onClick={next}>Next</button>
+                <button onClick={showHideAcceptedAnswer}>Show Accepted Answer</button>
             </div>
-            {data && <div> <div className="Question">
-                <h3>{data[questionNumber].title}</h3>
-                <article dangerouslySetInnerHTML={{ __html: data[questionNumber].body }}>
-                </article>
+            <h2>Question:</h2>
+            {data && <div>
+                <div className="Question">
+                    <h3>{data[questionNumber].title}</h3>
+                    <article dangerouslySetInnerHTML={{ __html: data[questionNumber].body }}>
+                    </article>
+                </div>
+                <h2>Answers:</h2>
+                <Answers questionId={data[questionNumber].question_id} revealAcceptedAnswer={showAcceptedAnswer} />
             </div>
-                <Answers questionId={data[questionNumber].question_id} />
-            </div>
-            
+
             }
             {!data && <div className="Question">
                 <h3>Loading...</h3>
