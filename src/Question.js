@@ -1,14 +1,47 @@
-import React from "react";
+import React, { component, useEffect, useState } from "react";
 import './App.css';
 
 function Question() {
+    const [data, setData] = useState();
+    const [questionNumber, setQuestionNumber] = useState(0);
+
+    useEffect(() => {
+        const url =
+            'https://api.stackexchange.com/2.3/questions?page=1&pagesize=30&order=desc&min=100&max=200&sort=votes&site=stackoverflow&filter=!6Wfm_gSvlYUX9'
+
+        fetch(url)
+            .then((result) => result.json())
+            .then((result) => {
+                if (result) {
+                    setData(result.items.filter(function (value, index, arr) {
+                        return value.answer_count > 1 && value.accepted_answer_id
+                    }));
+                    console.dir(result);
+                }
+            })
+    }, []);
+
+    function next() {
+        if (questionNumber + 1 < data.length)
+            setQuestionNumber(questionNumber + 1);
+    }
+
+    function previous() {
+        if (questionNumber > 0)
+            setQuestionNumber(questionNumber - 1);
+    }
+
     return (
         <>
-            <div className="Question">
-                <h3>How do I delete a Git branch locally and remotely?</h3>
-                <article dangerouslySetInnerHTML={{ __html: "<p>Failed Attempts to Delete a Remote Branch:</p>\n<pre class=\"lang-bash prettyprint-override\"><code>$ git branch -d remotes/origin/bugfix\nerror: branch 'remotes/origin/bugfix' not found.\n\n$ git branch -d origin/bugfix\nerror: branch 'origin/bugfix' not found.\n\n$ git branch -rd origin/bugfix\nDeleted remote branch origin/bugfix (was 2a14ef7).\n\n$ git push\nEverything up-to-date\n\n$ git pull\nFrom github.com:gituser/gitproject\n\n* [new branch] bugfix -&gt; origin/bugfix\nAlready up-to-date.\n</code></pre>\n<p>How do I properly delete the <code>remotes/origin/bugfix</code> branch both locally and remotely?</p>\n", }}>
-                </article>
+            <div className="Button-box">
+                <button onClick={previous}>Previous</button>
+                <button onClick={next}>Next</button>
             </div>
+            {data && <div className="Question">
+                <h3>{data[questionNumber].title}</h3>
+                <article dangerouslySetInnerHTML={{ __html: data[questionNumber].body }}>
+                </article>
+            </div>}
         </>
     )
 }
