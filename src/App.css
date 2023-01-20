@@ -25,6 +25,18 @@
   background-color: antiquewhite;
 }
 
+.Answer {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin: 0 5rem;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  padding: 0 1rem;
+  background-color: lightblue;
+}
+
 .Button-box {
   display: flex;
   flex-direction: row;
