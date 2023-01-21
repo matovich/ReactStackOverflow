@@ -6,6 +6,7 @@ function Question() {
     const [data, setData] = useState();
     const [questionNumber, setQuestionNumber] = useState(0);
     const [showAcceptedAnswer, setShowAcceptedAnswer] = useState(false);
+    const [selectedAnswerId, setSelectedAnswerId] = useState(0);
 
     useEffect(() => {
         const url =
@@ -17,10 +18,8 @@ function Question() {
                 .then((result) => {
                     if (result) {
                         setData(result.items.filter(function (value, index, arr) {
-                            return value.answer_count > 1 && value.accepted_answer_id
+                            return value.answer_count > 1 && value.answer_count < 11 && value.accepted_answer_id
                         }));
-                        console.dir(result);
-                        console.log(`Quota Max: ${result.quota_max}`);
                         console.log(`Quota Remaining: ${result.quota_remaining}`);
                     }
                 })
@@ -28,14 +27,14 @@ function Question() {
     }, [data]);
 
     function next() {
-        if (questionNumber + 1 < data.length){
+        if (questionNumber + 1 < data.length) {
             setShowAcceptedAnswer(false);
             setQuestionNumber(questionNumber + 1);
         }
     }
 
     function previous() {
-        if (questionNumber > 0){
+        if (questionNumber > 0) {
             setShowAcceptedAnswer(false);
             setQuestionNumber(questionNumber - 1);
         }
@@ -45,14 +44,20 @@ function Question() {
         setShowAcceptedAnswer(!showAcceptedAnswer);
     }
 
+    function selectAnswer(answerId) {
+        if (answerId) {
+            setSelectedAnswerId(answerId);
+        }
+    }
+
     return (
         <>
             <div className="Button-box">
                 <button onClick={previous}>Previous</button>
                 <button onClick={next}>Next</button>
-                <button onClick={showHideAcceptedAnswer}>Show Accepted Answer</button>
+                <button onClick={showHideAcceptedAnswer}>{showAcceptedAnswer ? "Hide Accepted Answer" : "Show Accepted Answer"}</button>
             </div>
-            <h2>Question:</h2>
+            <h2>Question {questionNumber + 1} of {data ? data.length : ''}: </h2>
             {data && <div>
                 <div className="Question">
                     <h3>{data[questionNumber].title}</h3>
@@ -60,7 +65,7 @@ function Question() {
                     </article>
                 </div>
                 <h2>Answers:</h2>
-                <Answers questionId={data[questionNumber].question_id} revealAcceptedAnswer={showAcceptedAnswer} />
+                <Answers questionId={data[questionNumber].question_id} revealAcceptedAnswer={showAcceptedAnswer} setSelectAnswer={(id) => selectAnswer(id)} selectedAnswerId={selectedAnswerId} />
             </div>
 
             }

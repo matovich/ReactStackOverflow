@@ -3,7 +3,7 @@ import './App.css';
 import Answer from './Answer.js';
 
 function Answers(props) {
-    const { questionId, revealAcceptedAnswer } = props;
+    const { questionId, revealAcceptedAnswer, setSelectAnswer, selectedAnswerId } = props;
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -15,9 +15,6 @@ function Answers(props) {
             .then((result) => {
                 if (result) {
                     setData(result);
-
-                    console.log("Answers Data");
-                    console.dir(result);
                 }
             })
     }, [questionId]);
@@ -25,7 +22,7 @@ function Answers(props) {
     function answers() {
         if (data) {
             return data.items.map((item, index) => (
-                <li key={index}><Answer answerHtml={item.body} acceptedAnswer={item.is_accepted} answerId={item.answer_id} revealAcceptedAnswer={revealAcceptedAnswer} /></li>));
+                <li key={index}><Answer answerHtml={item.body} acceptedAnswer={item.is_accepted} answerId={item.answer_id} revealAcceptedAnswer={revealAcceptedAnswer}  setSelectAnswer={setSelectAnswer} selectedAnswerId={selectedAnswerId}  /></li>));
         }
     }
 
