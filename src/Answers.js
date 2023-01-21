@@ -7,6 +7,7 @@ function Answers(props) {
     const [data, setData] = useState();
 
     useEffect(() => {
+        setData(null);
         const url =
             `https://api.stackexchange.com/2.3/questions/${questionId}/answers?order=desc&sort=activity&site=stackoverflow&filter=!nOedRLqQ19`
 
