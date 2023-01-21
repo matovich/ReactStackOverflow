@@ -64,7 +64,7 @@ function Question() {
                     <article dangerouslySetInnerHTML={{ __html: data[questionNumber].body }}>
                     </article>
                 </div>
-                <h2>Answers:</h2>
+                <h2>Answers (click to select an answer):</h2>
                 <Answers questionId={data[questionNumber].question_id} revealAcceptedAnswer={showAcceptedAnswer} setSelectAnswer={(id) => selectAnswer(id)} selectedAnswerId={selectedAnswerId} />
             </div>
 
