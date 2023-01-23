@@ -10,7 +10,7 @@ function Question() {
 
     useEffect(() => {
         const url =
-            'https://api.stackexchange.com/2.3/questions?page=1&pagesize=30&order=desc&min=100&max=200&sort=votes&site=stackoverflow&filter=!6Wfm_gSvlYUX9'
+            'https://api.stackexchange.com/2.3/questions?page=1&pagesize=40&order=desc&min=100&max=200&sort=votes&site=stackoverflow&filter=!6Wfm_gSvlYUX9'
 
         if (!data) {
             fetch(url)
@@ -18,7 +18,7 @@ function Question() {
                 .then((result) => {
                     if (result) {
                         setData(result.items.filter(function (value, index, arr) {
-                            return value.answer_count > 1 && value.answer_count < 11 && value.accepted_answer_id
+                            return value.answer_count > 1 && value.answer_count < 16 && value.accepted_answer_id
                         }));
                         console.log(`Quota Remaining: ${result.quota_remaining}`);
                     }
